@@ -329,6 +329,7 @@
 
     function registerEvent(eventObj) {
       let tab = WA.player.state.role;
+      tab ? tab : (tab = []);
       tab.push(eventObj.extendedProps.salle);
       WA.player.state.role = tab;
       WA.chat.sendChatMessage(
@@ -349,6 +350,7 @@
 
     function unregisterEvent(eventObj) {
       let tab = WA.player.state.role;
+      tab ? tab : (tab = []);
       const index = tab.indexOf(eventObj.extendedProps.salle);
       if (index > -1) {
         tab.splice(index, 1);
@@ -449,11 +451,6 @@
     function closeIfram() {
       WA.state.saveVariable("iframe", false);
     }
-
-    WA.onInit().then(() => {
-      var playerRole = WA.player.state.role;
-      console.log("player role", playerRole);
-    });
 
     function getDelayUntilEventEnds(endTime) {
       let now = new Date();

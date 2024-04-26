@@ -32,6 +32,7 @@ WA.onInit()
       let data = JSON.parse(newEventData);
       if (newEventData) {
         let tab = WA.player.state.role;
+        tab ? tab : (tab = []);
         let index = tab.indexOf(data.salle);
         if (index > -1) {
           tab.splice(index, 1); // Supprime le tag
@@ -52,6 +53,7 @@ WA.onInit()
       let delayInfo = JSON.parse(delayInfoJson);
       setTimeout(() => {
         let tab = WA.player.state.role;
+        tab ? tab : (tab = []);
         let index = tab.indexOf(delayInfo.salle);
         if (index > -1) {
           tab.splice(index, 1); // Supprime le tag
