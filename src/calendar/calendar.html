@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Calendrier de réservation</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/fr.min.js"></script>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+      body {
+        box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+        border-radius: 25px;
+        width: 700px;
+        position: relative;
+      }
+      #calendar {
+        background-color: white;
+        border-radius: 25px;
+        padding: 20px;
+      }
+      .close-btn {
+        position: absolute;
+        right: -50px;
+        top: 10px;
+        background-color: red;
+        color: white;
+        height: 50px;
+        width: 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border: 1px solid red;
+        border: none;
+        border-radius: 100%;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .close-btn:hover {
+        background-color: rgb(245, 92, 92);
+        transition: all 0.3s ease;
+      }
+      .fc-day:hover {
+        /* color of the hover */
+        background-color: #e3e3e3;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      #eventInputForm {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px;
+        background: #e7e7e7;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 100;
+        max-width: 400px; /* ajustez la largeur selon vos besoins */
+        width: 100%;
+      }
+
+      #eventInputForm .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #eventInputForm .top button {
+        width: 100px;
+        background-color: red;
+        color: white;
+        padding: 7px 10px;
+      }
+
+      #eventInputForm .top button:hover {
+        background-color: rgb(245, 92, 92);
+        transition: all 0.3s ease;
+      }
+
+      #eventInputForm input,
+      #eventInputForm select {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #eventInputForm button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      #eventInputForm button:hover {
+        background: #0056b3;
+      }
+
+      #eventModal {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        padding: 20px;
+        z-index: 100;
+      }
+
+      #eventModal div {
+        margin: 5px 0;
+      }
+
+      #eventModal button {
+        margin: 5px auto;
+        width: 100px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #eventModal button:hover {
+        background-color: #0056b3;
+      }
+
+      #eventModal button:last-child {
+        background-color: #dc3545;
+      }
+
+      #eventModal button:last-child:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="calendar"></div>
+    <button class="close-btn" onclick="closeIfram()">X</button>
+    <!-- fenêtre pour l'ajout d'événement -->
+    <div id="eventInputForm" style="display: none">
+      <div class="top">
+        <h3>Réserver une Salle</h3>
+        <button onclick="closeForm()">Fermer</button>
+      </div>
+      <input type="text" id="eventName" placeholder="Nom de l'événement" />
+      <input type="datetime-local" id="eventStart" />
+      <input type="number" id="eventDuration" placeholder="Durée en heures" />
+      <select id="roomSelect">
+        <option value="salle_cardiologie">Cardiologie</option>
+        <option value="salle_neurologie">Neurologie</option>
+        <option value="salle_oncologie">Oncologie</option>
+      </select>
+      <button onclick="addEvent()">Ajouter</button>
+    </div>
+    <!-- fenêtre pour afficher un événement -->
+    <div id="eventModal" style="display: none">
+      <div>Nom: <span id="modalTitle"></span></div>
+      <div>Heure: <span id="modalTime"></span></div>
+      <div>Salle: <span id="modalSalle"></span></div>
+      <button id="type-btn" onclick="deleteEvent()">Supprimer</button>
+      <button onclick="closeModal()">Fermer</button>
+    </div>
+  </body>
+  <script>
+    var calendar;
+    document.addEventListener("DOMContentLoaded", function () {
+      var calendarEl = document.getElementById("calendar");
+      calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        locale: "fr",
+        buttonText: {
+          today: "aujourd'hui",
+          month: "mois",
+          week: "semaine",
+          day: "jour",
+          list: "liste",
+        },
+        dateClick: function (info) {
+          if (WA.player.tags.includes("admin")) {
+            // Vérifiez si le joueur est un administrateur (ou un autre rôle si nécessaire
+            var clickedDate = info.date;
+            var formattedDate = formatDateAndTime(clickedDate);
+            document.getElementById("eventStart").value = formattedDate;
+            document.getElementById("eventInputForm").style.display = "block";
+          }
+        },
+        headerToolbar: {
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
+        },
+        eventContent: function (arg) {
+          let startTime = formatTime(new Date(arg.event.start));
+          let endTime = formatTime(new Date(arg.event.end));
+          let salle = arg.event.extendedProps.salle;
+          let color = roomColor(arg.event.extendedProps.salle); // Assurez-vous que cette fonction retourne la couleur correcte
+
+          let node = document.createElement("div");
+          node.style.padding = "5px";
+          node.style.backgroundColor = color; // Appliquez directement la couleur de fond
+          node.style.borderColor = color; // Appliquez directement la couleur de bordure
+          node.style.color = "white"; // Texte en blanc pour la visibilité
+          node.innerHTML = `<b>${arg.event.title}</b><br>${startTime} - ${endTime}<br>Salle: ${salle}`;
+
+          return { domNodes: [node] };
+        },
+        eventClick: function (info) {
+          showModal(info.event);
+        },
+      });
+      calendar.render();
+      // Chargez les événements après avoir rendu le calendrier
+
+      setTimeout(() => {
+        loadEvents(calendar);
+      }, 300);
+    });
+
+    function addEvent() {
+      var title = document.getElementById("eventName").value;
+      var start = document.getElementById("eventStart").value;
+      var duration = parseInt(
+        document.getElementById("eventDuration").value,
+        10
+      );
+      var room = document.getElementById("roomSelect").value;
+
+      if (title && start && duration && room) {
+        var end = new Date(start);
+        end.setHours(end.getHours() + duration);
+
+        console.log(roomColor(room));
+
+        calendar.addEvent({
+          title: title,
+          start: start,
+          end: end.toISOString(),
+          color: roomColor(room), // Associer une couleur à la salle
+          backgroundColor: roomColor(room), // Force la couleur de fond
+          borderColor: roomColor(room), // Assurez-vous que les bordures sont de la même couleur
+          textColor: "white",
+          extendedProps: {
+            salle: room,
+          },
+        });
+        saveEvents();
+
+        closeForm();
+      } else {
+        alert("Veuillez remplir tous les champs");
+      }
+    }
+
+    function roomColor(room) {
+      switch (room) {
+        case "salle_cardiologie":
+          return "#00b4d8";
+        case "salle_neurologie":
+          return "#ffd6a5";
+        case "salle_oncologie":
+          return "#CD533B";
+        default:
+          return "#cccccc";
+      }
+    }
+
+    function closeForm() {
+      document.getElementById("eventInputForm").style.display = "none";
+    }
+
+    function showModal(eventObj) {
+      document.getElementById("modalTitle").textContent = eventObj.title;
+      document.getElementById("modalTime").textContent =
+        formatTime(new Date(eventObj.start)) +
+        " - " +
+        formatTime(new Date(eventObj.end));
+      document.getElementById("modalSalle").textContent =
+        eventObj.extendedProps.salle;
+      document.getElementById("eventModal").style.display = "block";
+
+      // Modification du bouton en fonction du rôle
+      const typeBtn = document.getElementById("type-btn");
+
+      var playerRole = WA.player.tags;
+      var isUserAdmin = playerRole.includes("admin"); //admin
+      if (isUserAdmin) {
+        typeBtn.textContent = "Supprimer";
+        typeBtn.onclick = function () {
+          deleteEvent(eventObj);
+        }; // Assurez-vous que cette fonction est correctement définie pour supprimer l'événement
+      } else {
+        if (isUserRegistered(eventObj)) {
+          typeBtn.textContent = "Se désinscrire";
+          typeBtn.onclick = function () {
+            unregisterEvent(eventObj);
+          };
+        } else {
+          typeBtn.textContent = "S'inscrire";
+          typeBtn.onclick = function () {
+            registerEvent(eventObj);
+          };
+        }
+        window.currentEvent = eventObj; // Stocker l'événement actuel pour l'utiliser dans les fonctions deleteEvent ou d'inscription
+      }
+    }
+
+    function isUserRegistered(eventObj) {
+      let tab = WA.player.state.role;
+      return tab.includes(eventObj.extendedProps.salle);
+    }
+
+    function registerEvent(eventObj) {
+      let tab = WA.player.state.role;
+      tab.push(eventObj.extendedProps.salle);
+      WA.player.state.role = tab;
+      WA.chat.sendChatMessage(
+        "Inscription à l'événement : " + eventObj.title,
+        "Info"
+      );
+      // Calculer le délai jusqu'à la fin de l'événement
+      let delay = getDelayUntilEventEnds(eventObj.end);
+      let delayInfo = {
+        delay: delay,
+        salle: eventObj.extendedProps.salle,
+        title: eventObj.title,
+      };
+      WA.state.saveVariable("delayinfo", JSON.stringify(delayInfo));
+      console.log("role in", WA.player.state.role);
+      closeModal();
+    }
+
+    function unregisterEvent(eventObj) {
+      let tab = WA.player.state.role;
+      const index = tab.indexOf(eventObj.extendedProps.salle);
+      if (index > -1) {
+        tab.splice(index, 1);
+        WA.player.state.role = tab;
+        WA.chat.sendChatMessage(
+          "Désinscription de l'événement : " + eventObj.title,
+          "Info"
+        );
+        console.log("role outd", WA.player.state.role);
+        closeModal();
+      }
+    }
+
+    function deleteEvent(eventObj) {
+      let data = {
+        salle: eventObj.extendedProps.salle,
+        title: eventObj.title,
+      };
+
+      WA.state.saveVariable("deletingevent", JSON.stringify(data));
+
+      if (eventObj) {
+        eventObj.remove();
+        saveEvents();
+        closeModal();
+      }
+    }
+
+    function closeModal() {
+      document.getElementById("eventModal").style.display = "none";
+    }
+
+    //gestion du temps
+    function formatTime(date) {
+      let hours = date.getHours().toString().padStart(2, "0");
+      let minutes = date.getMinutes().toString().padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+
+    function formatDate(date) {
+      let year = date.getFullYear();
+      let month = (date.getMonth() + 1).toString().padStart(2, "0");
+      let day = date.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDateAndTime(date) {
+      let formattedDate = formatDate(date);
+      let formattedTime = formatTime(date);
+      return `${formattedDate}T${formattedTime}`;
+    }
+
+    // saving data to the state
+
+    function saveEvents() {
+      var events = calendar.getEvents();
+      var eventData = events.map((event) => ({
+        title: event.title,
+        start: event.start.toISOString(),
+        end: event.end ? event.end.toISOString() : null,
+        extendedProps: {
+          salle: event.extendedProps.salle,
+        },
+        color: event.backgroundColor, // Assurez-vous d'enregistrer la couleur si nécessaire
+      }));
+
+      var eventsJson = JSON.stringify(eventData);
+      WA.state.saveVariable("toto", eventsJson); // Enregistrez les événements dans le state
+    }
+
+    //loading data from the state
+
+    async function loadEvents(calendarActive) {
+      if (WA.state.hasVariable("toto")) {
+        var storedEvents = await WA.state.loadVariable("toto");
+
+        if (storedEvents) {
+          var events = JSON.parse(storedEvents);
+          events.forEach((event) => {
+            calendarActive.addEvent({
+              title: event.title,
+              start: event.start,
+              end: event.end,
+              extendedProps: {
+                salle: event.extendedProps.salle,
+              },
+              color: event.color,
+            });
+          });
+        } else {
+          console.log("Aucun événement à charger.");
+        }
+      } else {
+        console.log("La variable 'toto' n'est pas définie.");
+      }
+    }
+
+    function closeIfram() {
+      WA.state.saveVariable("iframe", false);
+    }
+
+    WA.onInit().then(() => {
+      var playerRole = WA.player.state.role;
+      console.log("player role", playerRole);
+    });
+
+    function getDelayUntilEventEnds(endTime) {
+      let now = new Date();
+      let end = new Date(endTime);
+      return end.getTime() - now.getTime();
+    }
+  </script>
+</html>
