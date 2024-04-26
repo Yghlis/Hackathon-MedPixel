@@ -153,7 +153,7 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: '/tilesets/iconsheesh.png',
+        imageSrc: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
