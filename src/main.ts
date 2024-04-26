@@ -153,7 +153,7 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: 'iconsheesh.png',
+        imageSrc: 'https://yghlis.github.io/Hackathon-MedPixel/tilesets/iconsheesh.png',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
