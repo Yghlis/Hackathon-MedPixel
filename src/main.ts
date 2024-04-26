@@ -54,7 +54,7 @@ WA.onInit().then(() => {
 
         console.log('Player tags:', playerTags);
 
-        if (!playerTags.includes('administrateur') && !playerTags.includes('VIP_neurologie')) {
+        if (!playerTags.includes('administrateur') && !playerTags.includes('VIP_cardiologie')) {
             console.log('Access denied to the jitsiMeetingRoom. You do not have the "admin" role.');
 
             let teleportX = lastPosition.x;
@@ -68,7 +68,7 @@ WA.onInit().then(() => {
             await WA.player.teleport(teleportX, teleportY);
 
             WA.ui.displayActionMessage({
-                message: "Vous n'avez pas le role nécéssaire pour accéder à la zone neurologie, si le problème persiste veuillez contacter un administrateur",
+                message: "Vous n'avez pas le role nécéssaire pour accéder à la zone cardiologie, si le problème persiste veuillez contacter un administrateur",
                 callback: () => console.log('The player has confirmed the message.'),
                 type: "warning",
             });
@@ -127,7 +127,7 @@ WA.onInit().then(() => {
 
         console.log('Player tags:', playerTags);
 
-        if (!playerTags.includes('administrateur') && !playerTags.includes('VIP_neurologie')) {
+        if (!playerTags.includes('administrateur') && !playerTags.includes('VIP_oncologie')) {
             console.log('Access denied to the jitsiMeetingRoom. You do not have the "admin" role.');
 
             let teleportX = lastPosition.x;
@@ -141,7 +141,7 @@ WA.onInit().then(() => {
             await WA.player.teleport(teleportX, teleportY);
 
             WA.ui.displayActionMessage({
-                message: "Vous n'avez pas le role nécéssaire pour accéder à la zone neurologie, si le problème persiste veuillez contacter un administrateur",
+                message: "Vous n'avez pas le role nécéssaire pour accéder à la zone oncologie, si le problème persiste veuillez contacter un administrateur",
                 callback: () => console.log('The player has confirmed the message.'),
                 type: "warning",
             });
