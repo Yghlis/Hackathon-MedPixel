@@ -156,7 +156,7 @@ WA.onInit().then(() => {
         callback: (event) => {
             console.log('Button clicked', event);
             WA.ui.modal.openModal({
-                title: 'ash',
+                title: 'propos',
                 src: './src/introduction.html',
                 allow: 'fullscreen',  
                 position: 'center',  
