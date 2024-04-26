@@ -79,7 +79,7 @@ WA.onInit().then(() => {
 
     WA.room.area.onEnter('book').subscribe(async () => {
         console.log(`The player ${WA.player.name} has entered the zone.`);
-        const playerTags = WA.player.tags; // Récupérer les tags du joueur
+        const playerTags = WA.player.tags; 
 
         console.log('Player tags:', playerTags);
 
