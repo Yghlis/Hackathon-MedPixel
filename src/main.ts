@@ -108,10 +108,7 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
-      let Access =
-        tab.includes("salle_cardiologie") == undefined
-          ? false
-          : tab.includes("salle_cardiologie");
+      let Access = tab ? tab.includes("salle_cardiologie") : false;
 
       console.log("Player tags:", playerTags);
 
@@ -172,10 +169,7 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
-      let Access =
-        tab.includes("salle_neurologie") == undefined
-          ? false
-          : tab.includes("salle_neurologie");
+      let Access = tab ? tab.includes("salle_neurologie") : false;
 
       console.log("Player tags:", playerTags);
 
@@ -221,10 +215,7 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
-      let Access =
-        tab.includes("salle_oncologie") == undefined
-          ? false
-          : tab.includes("salle_oncologie");
+      let Access = tab ? tab.includes("salle_oncologie") : false;
       console.log("Player tags:", playerTags);
 
       if (
