@@ -149,24 +149,43 @@ WA.onInit().then(() => {
             console.log('Welcome to the jitsiMeetingRoom!');
         }
     });
-
+let waf;
     WA.ui.actionBar.addButton({
         id: 'register-btn',
-        type: 'action',
-        imageSrc: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
-        toolTip: 'Register',
+        label: 'A propos',
         callback: (event) => {
             console.log('Button clicked', event);
-            WA.ui.modal.openModal({
-                title: 'ash',
-                src: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
-                allow: 'fullscreen',  
-                position: 'center',  
-                allowApi: true,
-               
-            });
+            WA.ui.website
+            .open({
+              url: "./src/introduction.html",
+              position: {
+                vertical: "middle",
+                horizontal: "middle",
+              },
+              size: {
+                width: "90%",
+                height: "90%",
+              },
+              visible: true,
+              allowApi: true,
+              allowPolicy:
+                "allow-same-origin allow-scripts allow-popups allow-forms", 
+            }).then((website) => {
+                waf = website;
+              })
         }
     });
+
+    function closeIframe() {
+        if (waf) {
+          waf
+            .close()
+            .then(() => {
+              waf = null;
+            })
+            
+        }
+      }
 
 const playerTags = WA.player.tags;
 
