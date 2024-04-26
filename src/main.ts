@@ -152,25 +152,19 @@ WA.onInit().then(() => {
 
     WA.ui.actionBar.addButton({
         id: 'register-btn',
-        label: 'aled',
+        type: 'action',
+        imageSrc: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
+        toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
-            WA.ui.website
-            .open({
-              url: "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal",
-              position: {
-                vertical: "middle",
-                horizontal: "middle",
-              },
-              size: {
-                width: "90%",
-                height: "90%",
-              },
-              visible: true,
-              allowApi: true,
-              allowPolicy:
-                "allow-same-origin allow-scripts allow-popups allow-forms", 
-            })
+            WA.ui.modal.openModal({
+                title: 'ash',
+                src: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
+                allow: 'fullscreen',  
+                position: 'center',  
+                allowApi: true,
+               
+            });
         }
     });
 
