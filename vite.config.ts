@@ -30,6 +30,7 @@ export default defineConfig({
                 index: "./index.html",
                 propos: "./src/introduction.html",
                 cgu: "./src/cgu/index.html",
+                calendar:"./src/calendar/calendar.html",
                 ...getMapsScripts(maps),
             },
         },
