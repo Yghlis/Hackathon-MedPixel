@@ -153,7 +153,7 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: './tilesets/iconsheesh.png',
+        imageSrc: 'https://play.workadventu.re/@/wouf/waf/medpixel/tilesets/iconsheesh.png',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
