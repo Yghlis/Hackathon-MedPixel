@@ -506,7 +506,7 @@
                          "value":true
                         }],
                  "rotation":0,
-                 "type":"variable",
+                 "type":"area",
                  "visible":true,
                  "width":0,
                  "x":911.200984918436,
