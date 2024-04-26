@@ -153,13 +153,13 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: 'https://yghlis.github.io/Hackathon-MedPixel/tilesets/iconsheesh.png',
+        imageSrc: '/tilesets/iconsheesh.png',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
             WA.ui.modal.openModal({
                 title: 'ash',
-                src: 'https://play.workadventu.re/_/3s2mwcf4ho9/yghlis.github.io/Hackathon-MedPixel/introduction.html',
+                src: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
                 allow: 'fullscreen',  
                 position: 'center',  
                 allowApi: true,
