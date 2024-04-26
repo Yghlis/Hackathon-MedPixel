@@ -14,6 +14,60 @@ WA.onInit()
     console.log("Scripting API ready");
     console.log("CA MARCHE");
 
+    //############################################################ Watcher de variable ############################################################
+
+    WA.state.onVariableChange("toto").subscribe((newEventData) => {
+      console.log("Updated calendar event data:", newEventData);
+    });
+
+    WA.state.onVariableChange("iframe").subscribe((newEventData) => {
+      console.log("Updated iframe event data:", newEventData);
+      if (!newEventData) {
+        closeIframe();
+        WA.state.saveVariable("iframe", true);
+      }
+    });
+
+    WA.state.onVariableChange("deletingevent").subscribe((newEventData) => {
+      let data = JSON.parse(newEventData);
+      if (newEventData) {
+        let tab = WA.player.state.role;
+        let index = tab.indexOf(data.salle);
+        if (index > -1) {
+          tab.splice(index, 1); // Supprime le tag
+          WA.player.state.role = tab;
+          WA.chat.sendChatMessage(
+            "Inscription terminée pour " +
+              data.title +
+              " dans la salle: " +
+              data.salle,
+            "info"
+          );
+          console.log("player role updated", tab);
+        }
+      }
+    });
+
+    WA.state.onVariableChange("delayinfo").subscribe((delayInfoJson) => {
+      let delayInfo = JSON.parse(delayInfoJson);
+      setTimeout(() => {
+        let tab = WA.player.state.role;
+        let index = tab.indexOf(delayInfo.salle);
+        if (index > -1) {
+          tab.splice(index, 1); // Supprime le tag
+          WA.player.state.role = tab;
+          WA.chat.sendChatMessage(
+            "Inscription terminée pour " +
+              delayInfo.title +
+              " dans la salle: " +
+              delayInfo.salle,
+            "info"
+          );
+          console.log("player role updated", tab);
+        }
+      }, delayInfo.delay);
+    });
+
     let cgu;
 
     WA.state.onVariableChange("Cgu").subscribe((newEventData) => {
@@ -54,13 +108,17 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
+      let Access =
+        tab.includes("salle_cardiologie") == undefined
+          ? false
+          : tab.includes("salle_cardiologie");
 
       console.log("Player tags:", playerTags);
 
       if (
         !playerTags.includes("administrateur") &&
         !playerTags.includes("VIP_cardiologie") &&
-        !tab.includes("salle_cardiologie")
+        !Access
       ) {
         console.log(
           'Access denied to the jitsiMeetingRoom. You do not have the "admin" role.'
@@ -114,14 +172,17 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
-
+      let Access =
+        tab.includes("salle_neurologie") == undefined
+          ? false
+          : tab.includes("salle_neurologie");
 
       console.log("Player tags:", playerTags);
 
       if (
         !playerTags.includes("administrateur") &&
-        !playerTags.includes("VIP_neurologie")
-        && !tab.includes("salle_neurologie")
+        !playerTags.includes("VIP_neurologie") &&
+        !Access
       ) {
         console.log(
           'Access denied to the jitsiMeetingRoom. You do not have the "admin" role.'
@@ -160,13 +221,16 @@ WA.onInit()
       console.log(`The player ${WA.player.name} has entered the zone.`);
       const playerTags = WA.player.tags; // Récupérer les tags du joueur
       let tab = WA.player.state.role;
-
+      let Access =
+        tab.includes("salle_oncologie") == undefined
+          ? false
+          : tab.includes("salle_oncologie");
       console.log("Player tags:", playerTags);
 
       if (
         !playerTags.includes("administrateur") &&
         !playerTags.includes("VIP_oncologie") &&
-        !tab.includes("salle_oncologie")
+        !Access
       ) {
         console.log(
           'Access denied to the jitsiMeetingRoom. You do not have the "admin" role.'
@@ -228,60 +292,6 @@ WA.onInit()
 
     //calendar
     let mycalendar;
-
-    //############################################################ Watcher de variable ############################################################
-
-    WA.state.onVariableChange("toto").subscribe((newEventData) => {
-      console.log("Updated calendar event data:", newEventData);
-    });
-
-    WA.state.onVariableChange("iframe").subscribe((newEventData) => {
-      console.log("Updated iframe event data:", newEventData);
-      if (!newEventData) {
-        closeIframe();
-        WA.state.saveVariable("iframe", true);
-      }
-    });
-
-    WA.state.onVariableChange("deletingevent").subscribe((newEventData) => {
-      let data = JSON.parse(newEventData);
-      if (newEventData) {
-        let tab = WA.player.state.role;
-        let index = tab.indexOf(data.salle);
-        if (index > -1) {
-          tab.splice(index, 1); // Supprime le tag
-          WA.player.state.role = tab;
-          WA.chat.sendChatMessage(
-            "Inscription terminée pour " +
-              data.title +
-              " dans la salle: " +
-              data.salle,
-            "info"
-          );
-          console.log("player role updated", tab);
-        }
-      }
-    });
-
-    WA.state.onVariableChange("delayinfo").subscribe((delayInfoJson) => {
-      let delayInfo = JSON.parse(delayInfoJson);
-      setTimeout(() => {
-        let tab = WA.player.state.role;
-        let index = tab.indexOf(delayInfo.salle);
-        if (index > -1) {
-          tab.splice(index, 1); // Supprime le tag
-          WA.player.state.role = tab;
-          WA.chat.sendChatMessage(
-            "Inscription terminée pour " +
-              delayInfo.title +
-              " dans la salle: " +
-              delayInfo.salle,
-            "info"
-          );
-          console.log("player role updated", tab);
-        }
-      }, delayInfo.delay);
-    });
 
     //############################################################ Calendar ############################################################
 
