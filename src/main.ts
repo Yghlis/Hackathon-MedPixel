@@ -152,12 +152,12 @@ WA.onInit().then(() => {
 
     WA.ui.actionBar.addButton({
         id: 'register-btn',
-        label: 'A propos',
+        label: 'a propos',
         callback: (event) => {
             console.log('Button clicked', event);
-            WA.ui.website.open({
+            WA.ui.modal.openModal({
                 title: 'ash',
-                src: 'https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal',
+                src: './src/introduction.html',
                 allow: 'fullscreen',  
                 position: 'center',  
                 allowApi: true,
