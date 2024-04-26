@@ -28,6 +28,8 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 index: "./index.html",
+                propos: "./src/introduction.html",
+                cgu: "./src/cgu/index.html",
                 ...getMapsScripts(maps),
             },
         },
