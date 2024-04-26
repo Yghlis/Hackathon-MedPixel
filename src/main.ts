@@ -79,7 +79,7 @@ WA.onInit().then(() => {
 
     WA.room.area.onEnter('book').subscribe(async () => {
         console.log(`The player ${WA.player.name} has entered the zone.`);
-        const playerTags = WA.player.tags; 
+        const playerTags = WA.player.tags; // Récupérer les tags du joueur
 
         console.log('Player tags:', playerTags);
 
@@ -153,7 +153,7 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: './tilesets/iconsheesh.png',
+        imageSrc: 'http://localhost:5173/tilesets/iconsheesh.png',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
