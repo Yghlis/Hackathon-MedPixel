@@ -79,7 +79,7 @@ WA.onInit().then(() => {
 
     WA.room.area.onEnter('book').subscribe(async () => {
         console.log(`The player ${WA.player.name} has entered the zone.`);
-        const playerTags = WA.player.tags; // Récupérer les tags du joueur
+        const playerTags = WA.player.tags; 
 
         console.log('Player tags:', playerTags);
 
@@ -153,13 +153,13 @@ WA.onInit().then(() => {
     WA.ui.actionBar.addButton({
         id: 'register-btn',
         type: 'action',
-        imageSrc: 'http://localhost:5173/tilesets/iconsheesh.png',
+        imageSrc: './tilesets/iconsheesh.png',
         toolTip: 'Register',
         callback: (event) => {
             console.log('Button clicked', event);
             WA.ui.modal.openModal({
                 title: 'ash',
-                src: 'http://localhost:5173/src/introduction.html',
+                src: 'https://play.workadventu.re/@/wouf/waf/medpixel/src/introduction.html',
                 allow: 'fullscreen',  
                 position: 'center',  
                 allowApi: true,
