@@ -257,21 +257,33 @@ WA.onInit()
         console.log("Welcome to the jitsiMeetingRoom!");
       }
     });
-
+    
     WA.ui.actionBar.addButton({
       id: "register-btn",
-      label: "a propos",
+      label: "À propos",
       callback: (event) => {
-        console.log("Button clicked", event);
-        WA.ui.modal.openModal({
-          title: "propos",
-          src: "./src/introduction.html",
-          allow: "fullscreen",
-          position: "center",
-          allowApi: true,
-        });
-      },
-    });
+          console.log("Bouton cliqué", event);
+          WA.ui.website.open({
+              url: "./src/introduction.html",
+              position: {
+                  vertical: "middle",
+                  horizontal: "middle"
+              },
+              size: {
+                  width: "90%",
+                  height: "90%"
+              },
+              visible: true,
+              allowApi: true,
+              allowPolicy: "allow-same-origin allow-scripts allow-popups allow-forms"
+          }).then((website) => {
+              console.log("Page d'introduction ouverte avec succès");
+          }).catch((err) => {
+              console.error("Erreur lors de l'ouverture de la page d'introduction", err);
+          });
+      }
+  });
+  
 
     const playerTags = WA.player.tags;
 
