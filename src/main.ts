@@ -28,6 +28,13 @@ WA.onInit()
       }
     });
 
+    WA.state.onVariableChange("waf").subscribe((newEventData) => {
+      if (!newEventData) {
+        closeWaf();
+        WA.state.saveVariable("waf", true);
+      }
+    });
+
     WA.state.onVariableChange("deletingevent").subscribe((newEventData) => {
       let data = JSON.parse(newEventData);
       if (newEventData) {
@@ -258,6 +265,8 @@ WA.onInit()
       }
     });
 
+    let wafwouf;
+
     WA.ui.actionBar.addButton({
       id: "register-btn",
       label: "À propos",
@@ -270,14 +279,15 @@ WA.onInit()
                   horizontal: "middle"
               },
               size: {
-                  width: "50%",
-                  height: "50%"
+                  width: "70%",
+                  height: "70%"
               },
               visible: true,
               allowApi: true,
               allowPolicy: "allow-same-origin allow-scripts allow-popups allow-forms"
           }).then((website) => {
               console.log("Page d'introduction ouverte avec succès");
+              wafwouf = website
           }).catch((err) => {
               console.error("Erreur lors de l'ouverture de la page d'introduction", err);
           });
@@ -341,6 +351,20 @@ WA.onInit()
           .then(() => {
             console.log("Calendrier fermé avec succès");
             mycalendar = null;
+          })
+          .catch((err) => {
+            console.error("Erreur lors de la fermeture du calendrier", err);
+          });
+      }
+    }
+
+    function closeWaf() {
+      if (wafwouf) {
+        wafwouf
+          .close()
+          .then(() => {
+            console.log("Calendrier fermé avec succès");
+            wafwouf = null;
           })
           .catch((err) => {
             console.error("Erreur lors de la fermeture du calendrier", err);

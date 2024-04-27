@@ -665,6 +665,24 @@
                  "width":0,
                  "x":796.978994571631,
                  "y":165.739910313901
+                }, 
+                {
+                 "height":0,
+                 "id":32,
+                 "name":"waf",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"persist",
+                         "type":"bool",
+                         "value":true
+                        }],
+                 "rotation":0,
+                 "type":"variable",
+                 "visible":true,
+                 "width":0,
+                 "x":751.877078316707,
+                 "y":155.835339983947
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -747,7 +765,7 @@
          "y":0
         }],
  "nextlayerid":67,
- "nextobjectid":32,
+ "nextobjectid":33,
  "orientation":"orthogonal",
  "properties":[
         {
