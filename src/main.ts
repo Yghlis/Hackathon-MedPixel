@@ -35,7 +35,7 @@ WA.onInit()
         tab ? tab : (tab = []);
         let index = tab.indexOf(data.salle);
         if (index > -1) {
-          tab.splice(index, 1); // Supprime le tag
+          tab.splice(index, 1); 
           WA.player.state.role = tab;
           WA.chat.sendChatMessage(
             "Inscription terminée pour " +
@@ -56,7 +56,7 @@ WA.onInit()
         tab ? tab : (tab = []);
         let index = tab.indexOf(delayInfo.salle);
         if (index > -1) {
-          tab.splice(index, 1); // Supprime le tag
+          tab.splice(index, 1); 
           WA.player.state.role = tab;
           WA.chat.sendChatMessage(
             "Inscription terminée pour " +
@@ -108,7 +108,7 @@ WA.onInit()
 
     WA.room.area.onEnter("jitsiMeetingRoom").subscribe(async () => {
       console.log(`The player ${WA.player.name} has entered the zone.`);
-      const playerTags = WA.player.tags; // Récupérer les tags du joueur
+      const playerTags = WA.player.tags; 
       let tab = WA.player.state.role;
       let Access = tab ? tab.includes("salle_cardiologie") : false;
 
@@ -169,7 +169,7 @@ WA.onInit()
 
     WA.room.area.onEnter("jitsiChillZone").subscribe(async () => {
       console.log(`The player ${WA.player.name} has entered the zone.`);
-      const playerTags = WA.player.tags; // Récupérer les tags du joueur
+      const playerTags = WA.player.tags; 
       let tab = WA.player.state.role;
       let Access = tab ? tab.includes("salle_neurologie") : false;
 
@@ -215,7 +215,7 @@ WA.onInit()
 
     WA.room.area.onEnter("from-conference").subscribe(async () => {
       console.log(`The player ${WA.player.name} has entered the zone.`);
-      const playerTags = WA.player.tags; // Récupérer les tags du joueur
+      const playerTags = WA.player.tags; 
       let tab = WA.player.state.role;
       let Access = tab ? tab.includes("salle_oncologie") : false;
       console.log("Player tags:", playerTags);
@@ -257,7 +257,7 @@ WA.onInit()
         console.log("Welcome to the jitsiMeetingRoom!");
       }
     });
-    
+
     WA.ui.actionBar.addButton({
       id: "register-btn",
       label: "À propos",
@@ -270,8 +270,8 @@ WA.onInit()
                   horizontal: "middle"
               },
               size: {
-                  width: "90%",
-                  height: "90%"
+                  width: "50%",
+                  height: "50%"
               },
               visible: true,
               allowApi: true,
@@ -315,7 +315,7 @@ WA.onInit()
           visible: true,
           allowApi: true,
           allowPolicy:
-            "allow-same-origin allow-scripts allow-popups allow-forms", // Ajoutez allow-same-origin ici
+            "allow-same-origin allow-scripts allow-popups allow-forms", 
         })
         .then((website) => {
           console.log("Calendrier ouvert avec succès");
