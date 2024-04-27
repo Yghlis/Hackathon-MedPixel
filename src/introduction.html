@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://play.workadventu.re/iframe_api.js"></script>
     <style>
       * {
         box-sizing: border-box;
@@ -11,6 +12,7 @@
       
       body {
         background-color: #1b1b29;
+        position: relative;
       }
 
       .container {
@@ -59,9 +61,28 @@
         align-items: center;
         gap: 10px;
       }
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        background-color: red;
+        color: white;
+        height: 50px;
+        width: 50px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border: 1px solid red;
+        border: none;
+        border-radius: 100%;
+        cursor: pointer;
+        font-size: 20px;
+      }
+      .close-btn:hover {
+        background-color: rgb(245, 92, 92);
+        transition: all 0.3s ease;
+      }
     </style>
   </head>
   <body>
+    <button class="close-btn" onclick="closeWaf()">X</button>
     <div class="container">
       <img class="banner" src="../assets/banner-542d32c9.svg" alt="banner" />
       <p class="content">
@@ -88,4 +109,9 @@
       </div>
     </div>
   </body>
+  <script>
+    function closeWaf() {
+      WA.state.saveVariable("waf", false);
+    }
+  </script>
 </html>
