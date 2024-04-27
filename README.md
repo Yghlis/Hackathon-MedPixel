@@ -1,55 +1,37 @@
-# WorkAdventure Map Starter Kit
+# MedPixel
 
-![map](./map.png)
+## Description du projet
 
-This is a starter kit to help you build your own map for [WorkAdventure](https://workadventu.re).
-
-To understand how to use this starter kit, follow the tutorial at [https://workadventu.re/map-building](https://workadventu.re/map-building).
-
-## Structure
-* *public*: Static files like PDFs or audio files
-* *src*: Scripts files
-* *tilesets*: All tilesets
-* *map.tmj*: Map file
-* *map.png*: The map thumbnail displayed on the in-game map information
-
-If you want to use more than one map file, just add the new map file on root or in a folder.
-
-we recommend using 500x500 images for the map thumbnails.
-
-If you are going to create custom websites to embed in the map, please reference the HTML files in the `input` option in *vite.config.js*.
-
-## Requirements
-
-Node.js version >=17
+MedPixel est une plateforme collaborative virtuelle, conçue pour répondre aux besoins de formation des professionnels de la santé et des institutions médicales. Notre mission est de faciliter un environnement sécurisé et interactif pour la collaboration globale, permettant à nos utilisateurs de partager des connaissances et de discuter des dernières avancées médicales tout en étant à distance.
 
 ## Installation
 
-With npm installed (comes with [node](https://nodejs.org/en/)), run the following commands into a terminal in the root directory of this project:
+Pour installer et lancer le projet, suivez les étapes ci-dessous :
 
-```shell
+```bash
+git clone [URL du dépôt]
+cd [nom du répertoire]
 npm install
-npm run dev
+npm run start
 ```
 
-## Test production map
 
-You can test the optimized map as it will be in production:
-```sh
-npm run build
-npm run prod
-```
+## Informations
 
-## Licenses
+- **Lien Figma**: [Voir les maquettes sur Figma](https://www.figma.com/file/K47GGhgaJZ5gdvesbzjrGA/MedPixel?type=design&node-id=0%3A1&mode=design&t=rgu3zNpcVqA155DU-1)
+- **Carte utilisée**: Nous avons utilisé la carte du starter kit par défaut, car la carte prévue par la designer n'était pas utilisable.
+- **Bibliothèque virtuelle**: [Virtual Library Medpixel](https://github.com/Matiss2702/Virtual-Library-Medpixel). Notez que cette bibliothèque n'est pas implémentée sur la carte en raison de problèmes HTTPS.
 
-This project contains multiple licenses as follows:
+## Fonctionnalités et contributeurs
 
-* [Code license](./LICENSE.code) *(all files except those for other licenses)*
-* [Map license](./LICENSE.map) *(`map.tmj` and the map visual as well)*
-* [Assets license](./LICENSE.assets) *(the files inside the `src/assets/` folder)*
+- **Système de calendrier**: Développé par Mohammed Achraf KHERRAZ ([Kherraz-Med-Achraf](https://github.com/Kherraz-Med-Achraf))
+- **Bibliothèque virtuelle**: Développée par Matiss Haillouy ([Matiss2702](https://github.com/Matiss2702)) et Willy PHANG ([PHANGWilly](https://github.com/PHANGWilly))
+- **Gestion des rôles**, **Restriction d'accès aux salles**, **Hud avec boutons d'introduction**, **Modal des CGU**: Développés par Youri Ghlis ([Yghlis](https://github.com/Yghlis))
 
-### About third party assets
+## Méthodologie de développement
 
-If you add third party assets in your map, do not forget to:
-1. Credit the author and license with the "tilesetCopyright" property present in the properties of each tilesets in the `map.tmj` file
-2. Add the license text in LICENSE.assets
+Nous avons adopté une approche de peer programming pour certaines fonctionnalités, en particulier pour le développement de la bibliothèque. Le développement principal s'est concentré sur l'utilisation de l'API de WorkAdventure pour le calendrier et la gestion des rôles, ainsi que pour l'UI et l'intégration des iFrames.
+
+## Vidéo de démonstration
+
+[Insérez ici le lien vers la vidéo de démonstration de votre projet]
