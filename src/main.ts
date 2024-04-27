@@ -167,7 +167,7 @@ WA.onInit()
 
       WA.ui.modal.openModal({
         title: "Bibliothèque virtuelle",
-        src: "http://154.56.57.33/",
+        src: "https://haillouy.fr/",
         allow: "fullscreen",
         position: "right",
         allowApi: true,
